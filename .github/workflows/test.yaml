@@ -1,5 +1,5 @@
 # Sample workflow to access AWS resources when workflow is tied to branch
-# The workflow creates a static website using AWS S3 t
+# The workflow creates a static website using AWS S3 ttt
 
 name: AWS Example Workflow
 
