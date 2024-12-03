@@ -1,13 +1,15 @@
 # Sample workflow to access AWS resources when workflow is tied to branch
-# The workflow Creates static website using aws s3
-name: AWS example workflow
+# The workflow creates a static website using AWS S3
+
+name: AWS Example Workflow
+
 on:
-  push
+  push:
     branches:
-      - main
+      - main  # This will trigger the workflow only for the 'main' branch
 
 jobs:
-  check-lambda-functions:
+  deploy-to-s3:
     runs-on: ubuntu-latest
 
     steps:
@@ -32,7 +34,7 @@ jobs:
         unzip awscliv2.zip
         sudo ./aws/install
 
-    # Step 4: Check the list of Lambda functions
+    # Step 4: List AWS Lambda functions (for testing AWS setup)
     - name: List AWS Lambda functions
       run: |
-        aws lambda list-functions --query 'Functions[*].FunctionName' --output table  # Optional: To display in a readable table format
+        aws lambda list-functions --query 'Functions[*].FunctionName' --output table  # Optional: To display Lambda functions in a readable table format
