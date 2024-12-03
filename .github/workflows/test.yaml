@@ -1,1 +1,37 @@
-test
+name: Check AWS Lambda Functions using OIDC
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check-lambda-functions:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the code from the repository
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Step 2: Set up AWS OIDC authentication
+    - name: Set up OIDC authentication for AWS
+      id: aws-oidc-auth
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
+        role-to-assume: arn:aws:iam::975049994612:role/oidc   # Replace with your role ARN
+        aws-region: ap-south-1   # Replace with your desired AWS region
+        role-session-name: GitHubActionsSession
+        id-token: true  # Use OIDC token for authentication
+
+    # Step 3: Install AWS CLI (if not already available)
+    - name: Install AWS CLI
+      run: |
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        unzip awscliv2.zip
+        sudo ./aws/install
+
+    # Step 4: Check the list of Lambda functions
+    - name: List AWS Lambda functions
+      run: |
+        aws lambda list-functions --query 'Functions[*].FunctionName' --output table  # Optional: To display in a readable table format
