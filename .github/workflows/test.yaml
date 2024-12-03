@@ -8,6 +8,10 @@ on:
     branches:
       - main  # This will trigger the workflow only for the 'main' branch
 
+permissions:
+  id-token: write # This is required for requesting the JWT
+
+
 jobs:
   deploy-to-s3:
     runs-on: ubuntu-latest
@@ -22,7 +26,7 @@ jobs:
       id: aws-oidc-auth
       uses: aws-actions/configure-aws-credentials@v3
       with:
-        role-to-assume: arn:aws:iam::975049994612:role/oidc   # Ensure this role ARN is correct
+        role-to-assume: arn:aws:iam::975049994612:role/oidc  # Ensure this role ARN is correct
         aws-region: ap-south-1   # Replace with your desired AWS region
         role-session-name: GitHubActionsSession
         id-token: true  # Use OIDC token for authentication
