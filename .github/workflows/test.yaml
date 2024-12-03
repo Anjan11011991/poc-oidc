@@ -32,11 +32,18 @@ jobs:
         id-token: true  # Use OIDC token for authentication
 
     # Step 3: Install AWS CLI (if not already available)
-    - name: Install AWS CLI
+
+    - name: Check if AWS CLI is installed
+      id: check-aws-cli
       run: |
-        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-        unzip awscliv2.zip
-        sudo ./aws/install
+        if ! command -v aws &> /dev/null; then
+          echo "AWS CLI not found, installing..."
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install
+        else
+          echo "AWS CLI is already installed."
+        fi
 
     # Step 4: List AWS Lambda functions (for testing AWS setup)
     - name: List AWS Lambda functions
