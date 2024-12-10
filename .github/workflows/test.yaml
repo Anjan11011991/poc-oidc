@@ -6,7 +6,7 @@ name: AWS Example Workflow
 on:
   push:
     branches:
-      - main  # secThis will trigger the workflow only for the 'main' branch
+      - main  # This will trigger the workflow only for the 'main' branch
 
 permissions:
   id-token: write # This is required for requesting the JWT
